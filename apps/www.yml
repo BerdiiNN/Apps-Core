@@ -38,8 +38,7 @@
     - name: 'Setting PG Volumes'
       set_fact:
         pg_volumes:
-          - '/opt/appdata/{{pgrole}}:/var/www'
-          - '/opt/appdata/{{pgrole}}:/etc'
+          - '/opt/appdata/{{pgrole}}:/var'
           - '/mnt:/mnt'
           - '/etc/localtime:/etc/localtime:ro'
 
