@@ -38,7 +38,7 @@
     - name: 'Setting PG Volumes'
       set_fact:
         pg_volumes:
-          - '/opt/appdata/{{pgrole}}:/var/www/html'
+          - '/opt/appdata/{{pgrole}}:/var/www'
           - '/opt/appdata/{{pgrole}}:/etc/php'
           - '/opt/appdata/{{pgrole}}:/etc/apache2'
           - '/mnt:/mnt'
