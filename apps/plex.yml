@@ -194,7 +194,7 @@
           PLEX_UID: '1000'
           PLEX_GID: '1000'
           PLEX_CLAIM: '{{claim.stdout}}'
-          ADVERTISE_IP: '	http://10.0.0.2:32400,http://plex.berdiinn.tech:80,https//plex.berdiinn.tech:443
+          ADVERTISE_IP: 'http://10.0.0.2:32400,http://plex.berdiinn.tech:80,https//plex.berdiinn.tech:443'
           NVIDIA_VISIBLE_DEVICES: 'all'
           NVIDIA_DRIVER_CAPABILITIES: 'compute,video,utility'
         purge_networks: yes
