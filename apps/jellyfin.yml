@@ -47,8 +47,8 @@
       set_fact:
         pg_volumes:
           - '{{path.stdout}}:{{path.stdout}}'
-          - '/opt/appdata/{{pgrole}}:/config'
-          - '/opt/transcodes:/transcode'
+          - '/mnt/hds/jellyfinconf:/config'
+          - '/mnt/hds/transcodevan:/transcode'
           - '/mnt/:/mnt/'
           - '/var/run/docker.sock:/var/run/docker.sock'
 
