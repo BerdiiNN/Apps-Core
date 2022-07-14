@@ -23,7 +23,7 @@
 
     - name: 'XML Check'
       stat:
-        path: /opt/appdata/{{pgrole}}/config/system.xml
+        path: /mnt/hds/jellyfinconf/{{pgrole}}/config/system.xml
       register: xmlcheck
 
     # LABELS ######################################################################
@@ -91,7 +91,7 @@
       block:
         - name: 'Pending XML Generation'
           wait_for:
-            path: '/opt/appdata/{{pgrole}}/config/system.xml'
+            path: '/mnt/hds/jellyfinconf/{{pgrole}}/config/system.xml'
             state: present
 
         - name: 'Wait 5 Seconds'
@@ -105,7 +105,7 @@
 
         - name: 'Turn Off Reporting'
           xml:
-            path: '/opt/appdata/{{pgrole}}/config/system.xml'
+            path: '/mnt/hds/jellyfinconf/{{pgrole}}/config/system.xml'
             xpath: /ServerConfiguration/EnableAnonymousUsageReporting
             value: 'false'
 
