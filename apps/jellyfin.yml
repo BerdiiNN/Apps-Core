@@ -48,7 +48,7 @@
         pg_volumes:
           - '{{path.stdout}}:{{path.stdout}}'
           - '/mnt/hds/dist:/jellyfin/jellyfin-web:ro'
-          - '/opt/appdata/{{pgrole}}:/config'
+          - '/mnt/hds/jellyfinconf/{{pgrole}}:/config'
           - '/mnt/hds/transcodevan:/transcode'
           - '/mnt/:/mnt/'
           - '/var/run/docker.sock:/var/run/docker.sock'
