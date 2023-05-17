@@ -46,8 +46,8 @@
           - '/etc/localtime:/etc/localtime:ro'
           - '{{path.stdout}}:{{path.stdout}}'
           - '/mnt:/mnt'
-          - '/mnt/hds/appdata/{{pgrole}}:/config'
-          - '/mnt/hds/appdata/{{pgrole}}/mp4_automator:/config_mp4_automator'
+          - '/mnt/appdata/{{pgrole}}:/config'
+          - '/mnt/appdata/{{pgrole}}/mp4_automator:/config_mp4_automator'
           
     - name: 'Setting PG ENV'
       set_fact:
