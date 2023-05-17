@@ -73,7 +73,7 @@
         default_volumes:
           - '/etc/localtime:/etc/localtime:ro'
           - '{{path.stdout}}:{{path.stdout}}'
-          - '/mnt/database:/config'
+          - '/opt/plex:/config'
           - '/tmp:/tmp'
           - '/mnt/transcode:/transcode'
           - '/dev/shm:/ram_transcode'
@@ -86,13 +86,13 @@
 
     - name: Check Preferences.xml exists
       stat:
-        path: '/mnt/database/Library/Application Support/Plex Media Server/Preferences.xml'
+        path: '/opt/plex/database/Library/Application Support/Plex Media Server/Preferences.xml'
       register: plex_prefs
 
     ############### This is needed because on a fresh installaions the value is missing and is defaulted to 1 Security perfered
     - name: secureConnections is missing
       xml:
-        path: '/mnt/database/Library/Application Support/Plex Media Server/Preferences.xml'
+        path: '/opt/plex/Library/Application Support/Plex Media Server/Preferences.xml'
         xpath: /Preferences/@secureConnections
         count: yes
       register: secure_hits
@@ -102,7 +102,7 @@
       ############### This is needed because on a fresh installaions the value is missing and is defaulted to 1 Security perfered
     - name: Add secureConnections if missing
       xml:
-        path: '/mnt/database/Library/Application Support/Plex Media Server/Preferences.xml'
+        path: '/opt/plex/Library/Application Support/Plex Media Server/Preferences.xml'
         xpath: /Preferences
         attribute: secureConnections
         value: '1'
@@ -112,7 +112,7 @@
 
     - name: Read Preferences.xml
       xml:
-        path: '/mnt/database/Library/Application Support/Plex Media Server/Preferences.xml'
+        path: '/opt/plex/Library/Application Support/Plex Media Server/Preferences.xml'
         xpath: /Preferences
         content: attribute
       register: plex_pref_content
@@ -193,7 +193,7 @@
           PLEX_UID: '1000'
           PLEX_GID: '1000'
           PLEX_CLAIM: '{{claim.stdout}}'
-          ADVERTISE_IP: 'http://10.0.0.2:32400,http://se.lovligt.tv:80,https://se.lovligt.tv:443'
+          ADVERTISE_IP: 'http://192.168.1.6:32400,http://se.lovligt.tv:80,https://se.lovligt.tv:443'
           NVIDIA_VISIBLE_DEVICES: 'all'
           NVIDIA_DRIVER_CAPABILITIES: 'compute,video,utility'
         purge_networks: yes
@@ -231,7 +231,10 @@
         env:
           PLEX_UID: '1000'
           PLEX_GID: '1000'
-          ADVERTISE_IP: '{{customConnections}}'
+          PLEX_CLAIM: '{{claim.stdout}}'
+          ADVERTISE_IP: 'http://192.168.1.6:32400,http://se.lovligt.tv:80,https://se.lovligt.tv:443'
+          NVIDIA_VISIBLE_DEVICES: 'all'
+          NVIDIA_DRIVER_CAPABILITIES: 'compute,video,utility'
         networks:
           - name: plexguide
             aliases:
@@ -248,13 +251,13 @@
     ###################### Plex WebTools
     - name: Check WebTools
       stat:
-        path: '/mnt/database/Library/Application Support/Plex Media Server/Plug-ins/WebTools.bundle'
+        path: '/opt/plex/Library/Application Support/Plex Media Server/Plug-ins/WebTools.bundle'
       register: webtools
 
     - name: Create Basic Directories
       file: 'path={{item}} state=directory mode=0775 owner=1000 group=1000'
       with_items:
-        - '/mnt/database/Library/Application Support/Plex Media Server/Plug-ins/WebTools.bundle'
+        - '/opt/plex/Library/Application Support/Plex Media Server/Plug-ins/WebTools.bundle'
       when:
         - webtools.stat.exists == False
 
