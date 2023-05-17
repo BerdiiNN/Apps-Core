@@ -73,7 +73,7 @@
         default_volumes:
           - '/etc/localtime:/etc/localtime:ro'
           - '{{path.stdout}}:{{path.stdout}}'
-          - '/opt/appdata/plex/database:/config'
+          - '/opt/appdata/{{pgrole}}/database:/config'
           - '/tmp:/tmp'
           - '/mnt/transcode:/transcode'
           - '/dev/shm:/ram_transcode'
@@ -284,3 +284,7 @@
 
     - debug: msg="Final Notes - Local Plex | IP Address {{ipaddress.stdout}} | Plex Type {{servertype.stdout}}"
       when: servertype.stdout == "local"
+
+##PG-personal
+
+##PG-personal
