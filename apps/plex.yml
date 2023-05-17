@@ -176,7 +176,7 @@
     ######################################### DEPLOY PLEX REMOTE (ANSWER 2)
     - name: Deploy Plex Container (Remote Edition)
       docker_container:
-        name: plex
+        name: plex-new
         image: '{{image}}'
         pull: yes
         published_ports:
@@ -213,7 +213,7 @@
     ######################################### DEPLOY PLEX LOCAL (ANSWER 3)
     - name: Deploy Plex Container (Local Edition)
       docker_container:
-        name: plex
+        name: plex-new
         image: '{{image}}'
         pull: yes
         published_ports:
