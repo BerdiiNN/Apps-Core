@@ -73,7 +73,6 @@
         default_volumes:
           - '/etc/localtime:/etc/localtime:ro'
           - '{{path.stdout}}:{{path.stdout}}'
-          - '/mnt:/mnt'
           - '/mnt/database:/config'
           - '/tmp:/tmp'
           - '/mnt/transcode:/transcode'
