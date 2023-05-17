@@ -74,9 +74,9 @@
           - '/etc/localtime:/etc/localtime:ro'
           - '{{path.stdout}}:{{path.stdout}}'
           - '/mnt:/mnt'
-          - '/mnt/hds/database:/config'
+          - '/mnt/database:/config'
           - '/tmp:/tmp'
-          - '/mnt/hds/transcode:/transcode'
+          - '/mnt/transcode:/transcode'
           - '/dev/shm:/ram_transcode'
 
     - name: 'Establish Key Variables'
@@ -87,13 +87,13 @@
 
     - name: Check Preferences.xml exists
       stat:
-        path: '/mnt/hds/database/Library/Application Support/Plex Media Server/Preferences.xml'
+        path: '/mnt/database/Library/Application Support/Plex Media Server/Preferences.xml'
       register: plex_prefs
 
     ############### This is needed because on a fresh installaions the value is missing and is defaulted to 1 Security perfered
     - name: secureConnections is missing
       xml:
-        path: '/mnt/hds/database/Library/Application Support/Plex Media Server/Preferences.xml'
+        path: '/mnt/database/Library/Application Support/Plex Media Server/Preferences.xml'
         xpath: /Preferences/@secureConnections
         count: yes
       register: secure_hits
@@ -103,7 +103,7 @@
       ############### This is needed because on a fresh installaions the value is missing and is defaulted to 1 Security perfered
     - name: Add secureConnections if missing
       xml:
-        path: '/mnt/hds/database/Library/Application Support/Plex Media Server/Preferences.xml'
+        path: '/mnt/database/Library/Application Support/Plex Media Server/Preferences.xml'
         xpath: /Preferences
         attribute: secureConnections
         value: '1'
@@ -113,7 +113,7 @@
 
     - name: Read Preferences.xml
       xml:
-        path: '/mnt/hds/database/Library/Application Support/Plex Media Server/Preferences.xml'
+        path: '/mnt/database/Library/Application Support/Plex Media Server/Preferences.xml'
         xpath: /Preferences
         content: attribute
       register: plex_pref_content
@@ -135,12 +135,12 @@
 
     - name: customConnections missing
       set_fact:
-        customConnections: 'http://{{ipaddress.stdout}}:32400, http://plex.{{domain.stdout}}:32400'
+        customConnections: 'http://{{ipaddress.stdout}}:32400, http://se.{{domain.stdout}}:32400'
       when:
         - plex_prefs.stat.exists == False
 
     - name: 'Get Plex Custom URL'
-      shell: 'echo https://plex.{{domain.stdout}}:443,http://plex.{{domain.stdout}}:80'
+      shell: 'echo https://se.{{domain.stdout}}:443,http://se.{{domain.stdout}}:80'
       register: plex_url
       when: servertype.stdout == "remote"
 
@@ -194,7 +194,7 @@
           PLEX_UID: '1000'
           PLEX_GID: '1000'
           PLEX_CLAIM: '{{claim.stdout}}'
-          ADVERTISE_IP: 'http://10.0.0.2:32400,http://plex.berdiinn.tech:80,https://plex.berdiinn.tech:443'
+          ADVERTISE_IP: 'http://10.0.0.2:32400,http://se.lovligt.tv:80,https://se.lovligt.tv:443'
           NVIDIA_VISIBLE_DEVICES: 'all'
           NVIDIA_DRIVER_CAPABILITIES: 'compute,video,utility'
         purge_networks: yes
@@ -249,20 +249,20 @@
     ###################### Plex WebTools
     - name: Check WebTools
       stat:
-        path: '/mnt/hds/database/Library/Application Support/Plex Media Server/Plug-ins/WebTools.bundle'
+        path: '/mnt/database/Library/Application Support/Plex Media Server/Plug-ins/WebTools.bundle'
       register: webtools
 
     - name: Create Basic Directories
       file: 'path={{item}} state=directory mode=0775 owner=1000 group=1000'
       with_items:
-        - '/mnt/hds/database/Library/Application Support/Plex Media Server/Plug-ins/WebTools.bundle'
+        - '/mnt/database/Library/Application Support/Plex Media Server/Plug-ins/WebTools.bundle'
       when:
         - webtools.stat.exists == False
 
     - name: Installing WebTools
       unarchive:
         src: https://github.com/ukdtom/WebTools.bundle/releases/download/3.0.0/WebTools.bundle.zip
-        dest: /mnt/hds/database/Library/Application Support/Plex Media Server/Plug-ins
+        dest: /mnt/database/Library/Application Support/Plex Media Server/Plug-ins
         keep_newer: no
         owner: '1000'
         group: '1000'
