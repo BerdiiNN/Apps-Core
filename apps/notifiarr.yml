@@ -16,6 +16,10 @@
         intport: '5454'
         extport: '5454'
         image: 'golift/notifiarr'
+        
+    # CORE (MANDATORY) ############################################################
+    - name: 'Including cron job'
+      include_tasks: '/opt/coreapps/apps/_core.yml'
 
     # LABELS ######################################################################
     - name: 'Adding Traefik'
