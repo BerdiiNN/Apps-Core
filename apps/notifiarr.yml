@@ -1,0 +1,58 @@
+#!/bin/bash
+#
+# Title:      notifiarr
+# Author(s):  BerdiiNN
+# URL:        https://lovligt.tv
+# GNU:        General Public License v3.0
+################################################################################
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    # FACTS #######################################################################
+    - name: 'Set Known Facts'
+      set_fact:
+        pgrole: 'notifiarr'
+        intport: '5454'
+        extport: '5454'
+        image: 'golift/notifiarr'
+
+    # LABELS ######################################################################
+    - name: 'Adding Traefik'
+      set_fact:
+        pg_labels:
+          traefik.frontend.auth.forward.address: '{{gauth}}'
+          traefik.enable: 'true'
+          traefik.port: '{{intport}}'
+          traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}},{{tldset}}'
+
+    - name: 'Setting PG Volumes'
+      set_fact:
+        pg_volumes:
+          - '/opt/{{pgrole}}:/config'
+          - '/var/run/utmp:/var/run/utmp'
+          - '/etc/localtime:/etc/localtime:ro'
+
+    - name: 'Setting default ENV'
+      set_fact:
+        pg_env:
+          USER_ID: 1000
+          GROUP_ID: 1000
+
+    # MAIN DEPLOYMENT #############################################################
+    - name: 'Deploying {{pgrole}}'
+      docker_container:
+        name: '{{pgrole}}'
+        image: '{{image}}'
+        pull: yes
+        published_ports:
+          - '{{ports.stdout}}{{extport}}:{{intport}}'
+        volumes: '{{pg_volumes}}'
+        env: '{{pg_env}}'
+        restart_policy: unless-stopped
+        networks:
+          - name: plexguide
+            aliases:
+              - '{{pgrole}}'
+        state: started
+        labels: '{{pg_labels}}'
