@@ -73,6 +73,7 @@
         name: '{{pgrole}}'
         image: '{{image}}'
         pull: yes
+        user: telegraf:999
         published_ports:
           - '{{ports.stdout}}{{extport}}:{{intport}}'
         volumes: '{{pg_volumes}}'
