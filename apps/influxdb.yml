@@ -22,7 +22,7 @@
         pgrole: 'influxdb'
         intport: '8086'
         extport: '8086'
-        image: 'influxdb'
+        image: 'influxdb:1.8'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
