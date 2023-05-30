@@ -16,7 +16,7 @@
         pgrole: 'varken'
         intport: '80'
         extport: '5985'
-        image: 'vflagr/centos-varken'
+        image: 'boerderij/varken:develop'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
@@ -54,6 +54,16 @@
         pg_env:
           UID: '1000'
           GID: '1000'
+          TZ: 'Europe/Copenhagen'
+          VRKN_OVERSEERR_1_URL: 'overseerr:5055'
+          VRKN_OVERSEERR_1_APIKEY: 'MTY4NDM0MDkyNDIzMTRjMjI2OTcxLTZiNzUtNDYyNy05YWM1LTM1MmE4YTNiZjgyYyk='
+          VRKN_OVERSEERR_1_SSL: 'false'
+          VRKN_OVERSEERR_1_VERIFY_SSL: 'false'
+          VRKN_OVERSEERR_1_GET_REQUEST_TOTAL_COUNTS: 'true'
+          VRKN_OVERSEERR_1_REQUEST_TOTAL_RUN_SECONDS: '30'
+          VRKN_OVERSEERR_1_GET_LATEST_REQUESTS_TO_FETCH: '10'
+          VRKN_OVERSEERR_1_NUM_LATEST_REQUESTS_SECONDS: '300'
+          
 
     # MAIN DEPLOYMENT #############################################################
     - name: 'Deploying {{pgrole}}'
